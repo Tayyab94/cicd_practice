@@ -10,6 +10,13 @@ jobs:
         steps:
             - name: Get Code
               uses: actions/checkout@v4
+
+            - name: Install Nodejs
+              uses: actions/setup-node@v4
+              with:
+                node-version: 17
+            - name: checking node version
+              run: node -v
             
             #   run: |
             #     echo "Gellow"
