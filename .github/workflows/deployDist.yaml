@@ -17,6 +17,12 @@ jobs:
                 node-version: 17
             - name: checking node version
               run: node -v
+
+            - name: Install Dependency
+              run : npm ci
+
+            - name: run Test
+              run: npm run test
             
             #   run: |
             #     echo "Gellow"
