@@ -8,8 +8,10 @@ jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            - name: "Get Code"
-              run: |
-                echo "Gellow"
-                echo "${{toJson(github)}}"
-                github clone https://github.com/${{github.repository}}.git
+            - name: Get Code
+              uses: actions/checkout@v4
+            
+            #   run: |
+            #     echo "Gellow"
+            #     echo "${{toJson(github)}}"
+            #     github clone https://github.com/${{github.repository}}.git
