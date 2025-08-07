@@ -1,0 +1,15 @@
+name: Deployee Dist
+
+# on: [push,workflow_dispatch]  see the alternate below
+on:
+    - push
+    - workflow_dispatch
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Get Code"
+              run: |
+                echo "Gellow"
+                echo "${{toJson(github)}}"
+                github clone https://github.com/${{github.repository}}.git
