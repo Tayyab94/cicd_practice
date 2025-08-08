@@ -6,7 +6,7 @@ on:
       - main
     paths-ignore:
       - '.github/workflows/*'
-      - 'README.md'  # Fixed typo from 'READ.md'
+      - 'README.md'
       
   workflow_dispatch:
 
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20  # Updated from 19 to LTS version
+          node-version: 20
           
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -63,10 +63,10 @@ jobs:
           echo "Build directory contents:"
           ls -la build/ || ls -la dist/ || echo "No build folder found"
           
-      - name: Upload artifacts
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-files
+          name: github-pages  # Changed from "build-files" to "github-pages"
           path: |
             build/
             dist/
@@ -78,25 +78,24 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: build-files
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-files
+          name: github-pages  # Must match upload-artifact name
           
-      - name: Determine build directory
-        id: set-build-dir
-        run: |
-          if [ -d "build" ]; then
-            echo "BUILD_DIR=build" >> $GITHUB_OUTPUT
-          elif [ -d "dist" ]; then
-            echo "BUILD_DIR=dist" >> $GITHUB_OUTPUT
-          else
-            echo "ERROR: No build directory found" && exit 1
-          fi
-          
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: |
+            build/
+            dist/
+            
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
         id: deployment
+        uses: actions/deploy-pages@v4
