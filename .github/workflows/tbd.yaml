@@ -80,7 +80,7 @@ jobs:
                 path: build
     deploye:
         needs: build
-        runs-on: ubuntu-la test
+        runs-on: ubuntu-latest
         steps:
             - name: Download Dist Artifects
               uses: actions/download-artifact@v5
@@ -88,5 +88,9 @@ jobs:
                 name: dist-files
                 path: build
 
+            - name: Verify Downloaded Files
+              run: |
+                echo "Contents of ./build:"
+                ls -la build
             - name: Deploy
               run: echo "Deployment Success!"
