@@ -77,7 +77,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: dist-files
-                path: dist
+                path: build
     deploye:
         needs: build
         runs-on: ubuntu-la test
@@ -86,7 +86,7 @@ jobs:
               uses: actions/download-artifact@v5
               with:
                 name: dist-files
-                path: dist
+                path: build
 
             - name: Deploy
               run: echo "Deployment Success!"
