@@ -72,7 +72,7 @@ jobs:
             - name: Upload dist Artifect
               uses: actions/upload-pages-artifact@v3
               with:
-                name: github-pages
+                name: dist-files
                 path: build
     deploye:
         needs: build
@@ -86,7 +86,7 @@ jobs:
 
         # Deploy to the github-pages environment
         environment:
-            name: github-pages
+            name: dist-files
             url: ${{ steps.deployment.outputs.page_url }}
 
         steps:
