@@ -1,4 +1,4 @@
-name: deployeePages
+name: Test_Build_Deployee
 
 # on: [push,workflow_dispatch]  see the alternate below
 on:
@@ -38,6 +38,10 @@ jobs:
             - name: run Test
               run: npm run test
             
+            #   run: |
+            #     echo "Gellow"
+            #     echo "${{toJson(github)}}"
+            #     github clone https://github.com/${{github.repository}}.git
 
     build:
         needs: test
@@ -70,29 +74,26 @@ jobs:
                 echo "Files in dist (if exists):"
                 ls -la dist || echo "dist folder not found"
             - name: Upload dist Artifect
-              uses: actions/upload-pages-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
-                name: github-pages
+                name: dist-files
                 path: build
     deploye:
         needs: build
         runs-on: ubuntu-latest
-        
-        
-        # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-        permissions:
-         pages: write      # to deploy to Pages
-         id-token: write   # to verify the deployment originates from an appropriate source
-
-        # Deploy to the github-pages environment
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
-
         steps:
-          - name: Deploy to GitHub Pages
-            id: deployment
-            uses: actions/deploy-pages@v4
-            with:
-                token: ${{secrets.GITHUB_TOKEN}} # or specific "vX.X.X" version tag for this action
+            - name: Download Dist Artifects
+              uses: actions/download-artifact@v5
+              with:
+                name: dist-files
+                path: build
 
+            - name: Verify Downloaded Files
+              run: |
+                echo "Contents of ./build:"
+                ls -la build
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                github_token: ${{secrets.GITHUB_TOKEN}}
+                publish_dir: ./build
