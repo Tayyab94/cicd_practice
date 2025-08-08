@@ -67,6 +67,12 @@ jobs:
               run : npm ci
             - name: Build Projecct
               run: npm run build
+            - name: Debug - List Files
+              run: |
+                echo "Files in root:"
+                ls -la
+                echo "Files in dist (if exists):"
+                ls -la dist || echo "dist folder not found"
             - name: Upload dist Artifect
               uses: actions/upload-artifact@v4
               with:
