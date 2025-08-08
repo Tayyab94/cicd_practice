@@ -34,14 +34,9 @@ jobs:
 
             - name: Install Dependency
               run : npm ci
-
             - name: run Test
               run: npm run test
             
-            #   run: |
-            #     echo "Gellow"
-            #     echo "${{toJson(github)}}"
-            #     github clone https://github.com/${{github.repository}}.git
 
     build:
         needs: test
@@ -81,6 +76,9 @@ jobs:
     deploye:
         needs: build
         runs-on: ubuntu-latest
+        permissions:
+          contents: write
+          pages: write
         steps:
             - name: Download Dist Artifects
               uses: actions/download-artifact@v5
@@ -88,12 +86,9 @@ jobs:
                 name: dist-files
                 path: build
 
-            - name: Verify Downloaded Files
-              run: |
-                echo "Contents of ./build:"
-                ls -la build
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
                 github_token: ${{secrets.GITHUB_TOKEN}}
                 publish_dir: ./build
+                keep_files: false
