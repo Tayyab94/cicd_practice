@@ -5,7 +5,13 @@ on:
     push:
         branches:
             - main
-            - workflow_dispatch
+        
+        paths-ignore:
+          - '.github/workflows/*'
+          - 'READ.md'
+          
+    workflow_dispatch:
+        
 jobs:
     test:
         runs-on: ubuntu-latest
