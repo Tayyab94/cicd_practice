@@ -2,8 +2,10 @@ name: Deployee Dist
 
 # on: [push,workflow_dispatch]  see the alternate below
 on:
-    - push
-    - workflow_dispatch
+    push:
+        branches:
+            - main
+            - workflow_dispatch
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -52,7 +54,7 @@ jobs:
               with:
                 path: ~/.npm
                 key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json')}}
-                    
+
             - name: checking node version
               run: node -v
 
