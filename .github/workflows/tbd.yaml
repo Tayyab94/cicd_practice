@@ -1,4 +1,4 @@
-name: Deployee Dist
+name: Test_Build_Deployee
 
 # on: [push,workflow_dispatch]  see the alternate below
 on:
